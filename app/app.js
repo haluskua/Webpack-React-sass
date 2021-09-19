@@ -1,13 +1,12 @@
-// const validator = require("validator");
-import isEmail from "validator/lib/isEmail";
-import tripleMe from "./tripleme";
+import React from "react";
+import ReactDOM from "react-dom";
 
-console.log(isEmail("john@test.com"));
+function App() {
+  return <h1> Hello Webpack with React!</h1>;
+}
 
-console.log(tripleMe(23));
+ReactDOM.render(<App />, document.getElementById("app"));
 
 if (module.hot) {
   module.hot.accept();
 }
-
-document.querySelector("h1").innerText = "Hello to Webpack";
