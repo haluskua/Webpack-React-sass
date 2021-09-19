@@ -1,11 +1,14 @@
 const currentTask = process.env.npm_lifecycle_event;
 const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const { WebpackManifestPlugin } = require("webpack-manifest-plugin");
 
 const config = {
   entry: "./app/app.js",
   output: {
-    filename: "myBundle.js",
+    filename: "myBundle.[hash].js",
     path: path.resolve(__dirname, "dist"),
   },
   devServer: {
@@ -31,7 +34,7 @@ const config = {
       },
     ],
   },
-  plugins: [],
+  plugins: [new HtmlWebpackPlugin({ template: "./app/index.html" })],
   mode: "development",
 };
 
@@ -40,8 +43,10 @@ if (currentTask == "build") {
   config.module.rules[0].use[0] = MiniCssExtractPlugin.loader;
   config.plugins.push(
     new MiniCssExtractPlugin({
-      filename: "main.css",
-    })
+      filename: "main.[hash].css",
+    }),
+    new CleanWebpackPlugin(),
+    new WebpackManifestPlugin()
   );
 }
 
