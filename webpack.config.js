@@ -1,6 +1,8 @@
+const currentTask = process.env.npm_lifecycle_event;
 const path = require("path");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-module.exports = {
+const config = {
   entry: "./app/app.js",
   output: {
     filename: "myBundle.js",
@@ -29,5 +31,18 @@ module.exports = {
       },
     ],
   },
+  plugins: [],
   mode: "development",
 };
+
+if (currentTask == "build") {
+  config.mode = "production";
+  config.module.rules[0].use[0] = MiniCssExtractPlugin.loader;
+  config.plugins.push(
+    new MiniCssExtractPlugin({
+      filename: "main.css",
+    })
+  );
+}
+
+module.exports = config;
