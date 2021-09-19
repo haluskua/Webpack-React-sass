@@ -28,7 +28,13 @@ const config = {
         use: {
           loader: "babel-loader",
           options: {
-            presets: ["@babel/preset-env", "@babel/preset-react"],
+            presets: [
+              [
+                "@babel/preset-env",
+                { useBuiltIns: "usage", corejs: 3, targets: "defaults" },
+              ],
+              "@babel/preset-react",
+            ],
           },
         },
       },
@@ -36,6 +42,7 @@ const config = {
   },
   plugins: [new HtmlWebpackPlugin({ template: "./app/index.html" })],
   mode: "development",
+  devtool: "eval-cheap-source-map",
 };
 
 if (currentTask == "build") {
